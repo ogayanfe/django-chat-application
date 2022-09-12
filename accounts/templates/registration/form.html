@@ -1,0 +1,12 @@
+{% extends "chat/root.html" %} {% load static %} {% block stuffForHeader %}
+<link rel="stylesheet" href="{% static 'chat/css/form.css' %}" />
+{% endblock stuffForHeader %} {% block content %}
+<main class="auth-form-container">
+    <form method="post">
+        <p>Login</p>
+        {{form.as_div}} {% csrf_token %}
+        <p>Don't have an account, <a href="{% url 'signup' %}">sign up</a></p>
+        <input type="submit" value="Login" class="submit-button" />
+    </form>
+</main>
+{% endblock content %}

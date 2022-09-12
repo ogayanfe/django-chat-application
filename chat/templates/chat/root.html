@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>LinkUp</title>
+        {% block stuffForHeader %} {% endblock stuffForHeader %}
+        <link rel="stylesheet" href="{% static 'chat/css/root.css' %}" />
+        <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
+    </head>
+    <body>
+        <header class="header">
+            <a href="{% url 'home' %}">
+                <h1>LinkUp</h1>
+            </a>
+            <nav>
+                <button>New Room</button>
+                {% if user.is_authenticated %}
+                <a href="{% url 'profile_update' user.user_profile_info.id%}">
+                    <img
+                        width="30px"
+                        src="{{user.user_profile_info.profile_picture.url}}"
+                        alt="{{user.username}} profile picture"
+                        class="profile-image"
+                    />
+                </a>
+                <p>{{user.username.title}} (@{{user.username}})</p>
+                <a href="{% url 'logout' %}" class="auth-urls">Logout</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="auth-urls">Login</a>
+                {% endif %}
+            </nav>
+        </header>
+        {% block content %} {% endblock content %}
+        <script type="text/javascript">
+            window.addEventListener("resize", (e) => {
+                node = document.querySelector("header h1");
+                if (window.innerWidth < 500) {
+                    node.innerText = "LU";
+                } else node.innerText = "LinkUp";
+            });
+            document.querySelector("header button").addEventListener("click", () => {
+                window.location = "{% url 'create-room' %}";
+            });
+        </script>
+    </body>
+</html>

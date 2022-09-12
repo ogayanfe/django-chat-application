@@ -1,0 +1,77 @@
+{% extends "chat/root.html" %} {%load static%} {% block stuffForHeader %}
+<link rel="stylesheet" href="{% static 'chat/css/chat.css' %}" />
+{% endblock stuffForHeader %} {% block content %}
+
+<main class="main">
+    <input type="hidden" value="{{object.id }}" id="group_id" />
+    <input type="hidden" value="{{object.topic}}" id="id-room_name" />
+    <input type="hidden" value="{{user.id}}" id="id-user-id" />
+    <section class="chat-section conversation-lists-container">
+        <div class="conversation-section-header">
+            <p>Your Inbox</p>
+            <button
+                style="color: #fff; background-color: transparent; border: none"
+            >
+                <iconify-icon icon="bytesize:settings" role="button">
+                    settings
+                </iconify-icon>
+            </button>
+        </div>
+        <form class="search" method="get" action="{% url 'home' %}">
+            <input type="text" placeholder="search" name="search"/>
+            <input type="submit" value="submit" />
+        </form>
+        <div class="conversation-lists">
+            <p style="text-align:center;color: white;">You Don't Belong To Any Room</p>
+        </div>
+    </section>
+    <section class="chat-section message-section">
+        <div class="message-section-header"></div>
+        </div>
+        <div class="messages-container">
+            <div class="messages"></div>
+            <div class="message-container-footer">
+                <form class="message-input-container">
+                    <input
+                        type="text"
+                        playholder="Type Message Here..."
+                        class="message-input"
+                        name="message"
+                        autofocus="true"
+                    />
+                    <div class="message-navigation">
+                        <iconify-icon
+                            class="attach-file"
+                            icon="eva:attach-outline"
+                        ></iconify-icon>
+                        <button
+                            class="send-button"
+                            style="
+                                color: #fff;
+                                background-color: tranparent;
+                                border: none;
+                            "
+                        >
+                            <iconify-icon icon="bi:send">Submit</iconify-icon>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <section class="chat-section group-info-section">
+        <div class="group-info-header">Participants</div>
+        <div class="user-list">  
+        </div>
+    </section>
+</main>
+<script type="text/javascript" src="{% static 'chat/js/index.js' %}"></script>
+<script
+    type="text/javascript"
+    src="{% static 'chat/js/messages.js' %}"
+></script>
+<script
+    type="text/javascript"
+    src="{% static 'chat/js/websocket.js' %}"
+></script>
+{% endblock content %}

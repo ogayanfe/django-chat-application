@@ -1,0 +1,13 @@
+{% extends "chat/root.html" %} {% load static %}
+<br />
+{% block stuffForHeader %}
+<link rel="stylesheet" href="{% static 'chat/css/form.css' %}" />
+{% endblock stuffForHeader %} {% block content %}
+<main class="auth-form-container">
+    <form method="post" enctype="multipart/form-data">
+        {{form.as_div}} {% csrf_token %}
+        <button class="submit-button" type="submit">Submit</button>
+        <p>Back to <a href="{% url 'home' %}">home</a></p>
+    </form>
+</main>
+{% endblock content %}

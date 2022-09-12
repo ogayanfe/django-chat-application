@@ -1,0 +1,91 @@
+{% extends "chat/root.html" %}
+<br style="display: none" />
+{% load static %} {% block stuffForHeader %}
+<link rel="stylesheet" href="{% static 'chat/css/index.css'%}" />
+{% endblock stuffForHeader %} {% block content %}
+<main class="main">
+    <section class="conversation-lists-container">
+        <div class="conversation-section-header">
+            {% if active == 'all' or not user.is_authenticated%}
+            <p>All Rooms</p>
+            {% else %}
+            <p>Your Inbox</p>
+            {% endif %}
+            <span class="conversation-list-links">
+                {% if user.is_authenticated %}
+                <a href="{% url 'home' %}" class="{% if active != 'all'%}active{% endif %}">
+                    Inbox
+                </a>
+                <a
+                    href="{% url 'home' %}?filter=all"
+                    class="{% if active == 'all'%}active{% endif %}"
+                >
+                    All Rooms
+                </a>
+                {% endif %}
+            </span>
+        </div>
+        <form class="search" method="get">
+            <input type="text" placeholder="search" name="search" />
+            <input type="submit" value="submit" />
+        </form>
+        <div class="conversation-lists">
+            {% if object_list %} {% for room in object_list %}
+            <div class="conversation" role="link">
+                <div class="conversation-header">
+                    <span>
+                        {% if room.creator %}
+                        <img
+                            class="profile-image"
+                            src="{{room.creator.user_profile_info.profile_picture.url}}"
+                            alt="{{room.owner.username}} profile picture"
+                        />
+                        {% else %}
+                        <img
+                            class="profile-image"
+                            src="/media/images/profile/defaultprofile.svg"
+                            alt="profile picture"
+                        />
+                        {% endif %}
+                        <p>
+                            Host {% if room.creator %}@{{room.creator.username}} {% else %}
+                            unknown{% endif %}
+                        </p>
+                    </span>
+                    <span>{{room.last_updated}}</span>
+                </div>
+                <div class="conversation-main">
+                    <a href="{{room.get_absolute_url}}">{{room.topic}}</a>
+                </div>
+                <div class="conversation-footer">
+                    <iconify-icon icon="akar-icons:people-group" style="color: grey"
+                        >Group</iconify-icon
+                    >
+                    {{room.members.count}} Joined {% if user == room.creator %}
+                    <a class="edit" href="{% url 'update-room' room.id%}">Edit</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %} {% else %}
+            <p style="width: 100%; color: #fff; text-align: center">
+                No Rooms To Show, <a href="{% url 'home' %}?filter=all">all rooms</a>
+            </p>
+            {% endif %}
+            <div class="pagination conversation-lists-footer">
+                <span class="step-links">
+                    <span class="current">
+                        Page {{ page_obj.number }} of {{page_obj.paginator.num_pages }}.
+                    </span>
+                    {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %} {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}
