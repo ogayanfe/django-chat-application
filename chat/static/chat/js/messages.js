@@ -70,7 +70,6 @@ function updateMembersList(members) {
 
 (async function displayMessages() {
     const data = await getMessages();
-    console.log(data);
     const { topic, number_of_members, active_members_count, dp, members } = data;
     const messagesHtmlElementStr = document.querySelector(".messages");
     updateMessagesHeader(topic, number_of_members, active_members_count, dp);

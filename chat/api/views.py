@@ -6,7 +6,6 @@ import chat.api.serializers as chatserializers
 class GroupListAPIView(ListAPIView):
     queryset = chat_models.ChatRoom.objects.all()
     serializer_class = chatserializers.ChatRoomSerializer
-    permission_classes = []
 
     def get_queryset(self):
         qs = super().get_queryset().filter(members__id=self.request.user.id)
@@ -22,4 +21,3 @@ class GroupListAPIView(ListAPIView):
 class GroupRetriveAPIView(RetrieveAPIView):
     serializer_class = chatserializers.ChatRoomWithMessagesSerializer
     queryset = chat_models.ChatRoom.objects.all()
-    permission_classes = []

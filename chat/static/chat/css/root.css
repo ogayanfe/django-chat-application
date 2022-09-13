@@ -12,6 +12,7 @@
     font-family: 'Open Sans', sans-serif;
     margin: 0;
     overflow: hidden;
+    transition: .5s all;
 }
 
 a:hover:not(header a) {
