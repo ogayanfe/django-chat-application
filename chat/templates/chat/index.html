@@ -9,7 +9,7 @@
             {% if active == 'all' or not user.is_authenticated%}
             <p>All Rooms</p>
             {% else %}
-            <p>Your Inbox</p>
+            <p>Your Rooms</p>
             {% endif %}
             <span class="conversation-list-links">
                 {% if user.is_authenticated %}

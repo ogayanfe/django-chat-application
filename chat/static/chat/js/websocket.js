@@ -1,8 +1,10 @@
+// Global => ScrollToBottom, getMessagHtmlText, host
+
 const wsprotocol = host === "https" ? "wss" : "ws";
 const groupId = document.getElementById("group_id").value;
 const websocketurl = `${wsprotocol}://${host}/ws/chat/${groupId}/`;
 const userId = document.querySelector("#id-user-id").value;
-const checkFrequency = 1000; // 1000 milliseconds(1 seconds)
+const retryFrequency = 1600; // Unit -> milliseconds
 let CONNECTED_TO_SERVER = false;
 let socket;
 
@@ -19,16 +21,16 @@ function addAttributesToSocket(socket) {
     socket.onclose = () => {
         console.log("Disconnected");
         CONNECTED_TO_SERVER = false;
+        connectToServer();
     };
 }
 
-function connectToServer(action) {
+function makeConnection(action) {
     // It takes a callback function
     let chatSocket = new WebSocket(websocketurl);
     const connect = setInterval(() => {
         // Using setInterval is neccessary because i want to keep
         // tring to connect to the server until the socket is open
-        // a one second check seems to be sufficient
 
         console.log("Connecting");
         if (chatSocket.readyState === WebSocket.OPEN) {
@@ -37,23 +39,18 @@ function connectToServer(action) {
             action(chatSocket); // call the callback with takes the newly created socket
             console.log("Connected");
         } else if (chatSocket.readyState === WebSocket.CLOSED) {
-            console.error("Socket closed, retrying in 2s"); // Connecting failed
+            console.error(`Socket closed, retrying in ${retryFrequency / 1000}s`); // Connection failed
             chatSocket = new WebSocket(websocketurl); // Try to connect again
         }
     }, 2000);
 }
 
-function checkSocketConnection() {
-    if (!CONNECTED_TO_SERVER) {
-        clearInterval(interval);
-        connectToServer((newSocket) => {
-            addAttributesToSocket(newSocket);
-            socket = newSocket;
-            CONNECTED_TO_SERVER = true;
-            console.log(socket);
-            interval = setInterval(checkSocketConnection, checkFrequency);
-        });
-    }
+function connectToServer() {
+    makeConnection((newSocket) => {
+        addAttributesToSocket(newSocket);
+        socket = newSocket;
+        CONNECTED_TO_SERVER = true;
+    });
 }
 
 function appendMessage(message, owner) {
@@ -84,4 +81,4 @@ document.querySelector(".message-input-container").addEventListener("submit", (e
     messageInputEl.value = "";
 });
 
-let interval = setInterval(checkSocketConnection, checkFrequency);
+connectToServer();

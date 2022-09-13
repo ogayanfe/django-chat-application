@@ -41,7 +41,7 @@ function getMessageHtmlText(content, owner_username, isOwner, user_profile_pictu
     />
     </div>
     <div class="msg-body">
-    <h4>${owner_username}</h4>
+    <h4 style="color:rgb(123, 187, 239);">${owner_username}</h4>
     <div>${content}</div>
     <span>${created_date}</span>
     </div>
