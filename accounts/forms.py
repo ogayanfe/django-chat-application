@@ -1,10 +1,12 @@
 from django import forms
 from accounts.models import UserProfile
 from django.conf import settings
+from django.contrib.auth.forms import UserChangeForm
 from django.template.defaultfilters import filesizeformat
+from django.contrib.auth.models import User
 
 
-class UpdateProfileForm(forms.ModelForm):
+class UpdateProfilePictureForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ("profile_picture",)
@@ -16,3 +18,9 @@ class UpdateProfileForm(forms.ModelForm):
         if file.size > max_size:
             raise forms.ValidationError(error)
         return file
+
+
+class UpdateUserInfoForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ("username", "password")

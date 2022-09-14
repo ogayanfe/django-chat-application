@@ -8,7 +8,6 @@
         <title>LinkUp</title>
         {% block stuffForHeader %} {% endblock stuffForHeader %}
         <link rel="stylesheet" href="{% static 'chat/css/root.css' %}" />
-        <script src="https://code.iconify.design/iconify-icon/1.0.0-beta.3/iconify-icon.min.js"></script>
     </head>
     <body>
         <header class="header">
@@ -18,7 +17,7 @@
             <nav>
                 <button>New Room</button>
                 {% if user.is_authenticated %}
-                <a href="{% url 'profile_update' user.user_profile_info.id%}">
+                <a href="{% url 'profile-update' user.id%}">
                     <img
                         width="30px"
                         src="{{user.user_profile_info.profile_picture.url}}"
