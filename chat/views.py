@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, ListView, DetailView, UpdateView
+from django.views.generic import CreateView, ListView, DeleteView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import ChatRoom
 from django.urls import reverse_lazy
@@ -59,3 +59,12 @@ class ChatRoomUpdateView(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         qs = super().get_queryset()
         return qs.filter(creator=self.request.user)
+
+
+class ChatRoomDeleteView(LoginRequiredMixin, DeleteView):
+    model = ChatRoom
+    success_url = reverse_lazy("home")
+    template_name = "chat/delete.html"
+
+    def get_queryset(self):
+        return super().get_queryset().filter(creator=self.request.user)

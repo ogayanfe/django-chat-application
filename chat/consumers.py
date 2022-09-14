@@ -6,6 +6,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 from django.utils.html import escape
 
+MAX_MESSAGE_COUNT = 20
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     room_name = None
@@ -62,6 +64,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
     @database_sync_to_async
     def save_message_to_chatroom(self, message_content):
         room = chatmodels.ChatRoom.objects.all().get(topic=self.room_name)
+        if (room.messages.count() == MAX_MESSAGE_COUNT):
+            room.messages.first().delete()
         message = room.messages.create(
             owner=self.user, content=message_content)
         response = model_to_dict(message)
@@ -73,8 +77,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def update_active_status(self, active):
+        # Add user to room if he's not already a member
         info, created = accountmodels.UserProfile.objects.get_or_create(
-            user=self.user)
+            user=self.user
+        )
         info.active = active
         info.save()
 

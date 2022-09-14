@@ -62,7 +62,15 @@
                         >Group</iconify-icon
                     >
                     {{room.members.count}} Joined {% if user == room.creator %}
-                    <a class="edit" href="{% url 'update-room' room.id%}">Edit</a>
+                    <div class="edit-links">
+                        <a class="edit" href="{% url 'update-room' room.id%}">Edit</a>
+                        <a
+                            class="delete"
+                            href="{% url 'delete-room' room.id%}"
+                            style="background-color: red"
+                            >Delete</a
+                        >
+                    </div>
                     {% endif %}
                 </div>
             </div>

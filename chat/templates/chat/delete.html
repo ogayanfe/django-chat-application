@@ -1,0 +1,16 @@
+{% extends "chat/root.html" %} {% load static %}
+<br />
+{% block stuffForHeader %}
+<link rel="stylesheet" href="{% static 'chat/css/form.css' %}" />
+{% endblock stuffForHeader %} {% block content %}
+<main class="auth-form-container">
+    <form method="post" enctype="multipart/form-data">
+        <div>
+            <p>Are you sure you want to permanently delete room "{{object}}"?</p>
+        </div>
+        {% csrf_token %}
+        <button class="submit-button" type="submit">Delete</button>
+        <p>Back to <a href="{% url 'home' %}">home</a></p>
+    </form>
+</main>
+{% endblock content %}

@@ -10,6 +10,8 @@ class Message(models.Model):
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     time_created = models.TimeField(auto_now_add=True)
+    room = models.ForeignKey(
+        "ChatRoom", on_delete=models.CASCADE, related_name="messages")
 
     @property
     def owner_username(self):
@@ -32,8 +34,6 @@ class ChatRoom(models.Model):
     topic = models.CharField(max_length=100, null=False, unique=True)
     members = models.ManyToManyField(User, related_name="chat_rooms")
     created = models.DateTimeField(auto_now_add=True)
-    messages = models.ManyToManyField(
-        Message, related_name="chat_messages", blank=True)
     dp = models.ImageField(
         upload_to="images/profile/", blank=True, default="images/profile/groupicon.svg")
 
