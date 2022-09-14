@@ -63,13 +63,12 @@
                     >
                     {{room.members.count}} Joined {% if user == room.creator %}
                     <div class="edit-links">
-                        <a class="edit" href="{% url 'update-room' room.id%}">Edit</a>
-                        <a
-                            class="delete"
-                            href="{% url 'delete-room' room.id%}"
-                            style="background-color: red"
-                            >Delete</a
-                        >
+                        <a href="{% url 'update-room' room.id%}">
+                            <iconify-icon icon="ant-design:edit-outlined"> Edit </iconify-icon>
+                        </a>
+                        <a href="{% url 'delete-room' room.id%}">
+                            <iconify-icon icon="fluent:delete-32-filled">Delete</iconify-icon>
+                        </a>
                     </div>
                     {% endif %}
                 </div>

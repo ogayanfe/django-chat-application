@@ -116,20 +116,11 @@ main> {
     gap: 5px;
 }
 
-.conversation-footer .edit,
-.conversation-footer .delete {
-    padding: 2px;
-    border-radius: 4px;
-    width: 50px;
-    border: none;
-    color: #fff;
-    text-align: center;
-    background: linear-gradient(90deg, #1D75DD 0%, #085EC4 100%);
+.conversation-footer a {
+    padding: 5px;
+    font-size: 20px;
 }
 
-.conversation-footer .delete {
-    background: red;
-}
 
 .conversation a {
     color: white;
