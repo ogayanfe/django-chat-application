@@ -19,6 +19,7 @@ def register_user_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            # Create a new profile for user
             models.UserProfile.objects.create(user=user)
             return redirect("home")
         return render(request, template_name="registration/register.html", context={"form": form})

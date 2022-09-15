@@ -3,9 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import ChatRoom
 from django.urls import reverse_lazy
 from .forms import ChatRoomCreateForm
+from accounts.mixins import CreateUserProfileInstanceIfUserIsAuthenticated
 
 
-class HomeView(ListView):
+class HomeView(CreateUserProfileInstanceIfUserIsAuthenticated, ListView):
     template_name = "chat/index.html"
     paginate_by = 10
     model = ChatRoom
@@ -31,12 +32,12 @@ class HomeView(ListView):
         return context
 
 
-class ChatDetailView(LoginRequiredMixin, DetailView):
+class ChatDetailView(LoginRequiredMixin, CreateUserProfileInstanceIfUserIsAuthenticated, DetailView):
     model = ChatRoom
     template_name = "chat/chat.html"
 
 
-class ChatRoomCreateView(LoginRequiredMixin, CreateView):
+class ChatRoomCreateView(LoginRequiredMixin, CreateUserProfileInstanceIfUserIsAuthenticated, CreateView):
     model = ChatRoom
     template_name = "chat/chatroom_edit.html"
     form_class = ChatRoomCreateForm
@@ -50,7 +51,7 @@ class ChatRoomCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ChatRoomUpdateView(LoginRequiredMixin, UpdateView):
+class ChatRoomUpdateView(LoginRequiredMixin, CreateUserProfileInstanceIfUserIsAuthenticated, UpdateView):
     model = ChatRoom
     template_name = "chat/chatroom_edit.html"
     form_class = ChatRoomCreateForm
