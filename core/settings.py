@@ -133,9 +133,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = 'static/'
 
 CHANNEL_LAYERS = {
-    """
-    Do not use the in memory layer during deployment
-    """
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
